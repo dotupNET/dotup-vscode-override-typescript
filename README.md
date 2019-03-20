@@ -18,7 +18,7 @@ Open a typescript file which extends another class. Put your cursor within the c
 
 ## Release Notes
 
-### 1.0.0
+### 1.0.1
 
 First release.
 
