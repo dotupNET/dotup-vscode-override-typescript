@@ -1,0 +1,59 @@
+{
+	"name": "dotup-vscode-override-typescript",
+	"displayName": "Override for typescript",
+	"description": "Override for typescript. Code completition for methods of extended class",
+	"version": "1.0.0",
+	"publisher": "dotup",
+	"author": "Peter Ullrich, dotup IT solutions",
+	"license": "MIT",
+	"keywords": [
+		"vscode",
+		"extension",
+		"override",
+		"typescript",
+		"code"
+	],
+	"activationEvents": [
+		"onLanguage:typescript",
+		"onLanguage:typescriptreact"
+	],
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/dotupNET/dotup-vscode-override-typescript"
+	},
+	"bugs": {
+		"url": "https://github.com/dotupNET/dotup-vscode-override-typescript/issues"
+	},
+	"engines": {
+		"vscode": "^1.18.0"
+	},
+	"categories": [
+		"Extension Packs",
+		"Formatters",
+		"Language Packs",
+		"Programming Languages",
+		"Snippets",
+		"Other"
+	],
+	"main": "./out/extension.js",
+	"scripts": {
+		"pack": "vsce package",
+		"publish-major": "vsce publish major",
+		"publish-minor": "vsce publish minor",
+		"publish-patch": "vsce publish patch",
+		"publish": "vsce publish",
+		"vscode:prepublish": "npm run compile",
+		"compile": "tsc -p ./",
+		"watch": "tsc -watch -p ./",
+		"postinstall": "node ./node_modules/vscode/bin/install"
+	},
+	"dependencies": {
+		"dotup-vscode-api-extensions": "^0.1.1"
+	},
+	"devDependencies": {
+		"@types/node": "^11.11.4",
+		"tslint": "^5.14.0",
+		"typescript": "^3.3.3",
+		"vscode": "^1.1.32"
+	}
+}
