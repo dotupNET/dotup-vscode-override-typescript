@@ -18,9 +18,10 @@ Open a typescript file which extends another class. Put your cursor within the c
 
 ## Release Notes
 
-### 1.0.2
+### 1.0.3
 
 - Activation events changed from typescript to *
+- Missing dependencies
 
 ### 1.0.1
 
