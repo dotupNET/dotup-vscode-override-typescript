@@ -6,6 +6,7 @@
 	"publisher": "dotup",
 	"author": "Peter Ullrich, dotup IT solutions",
 	"license": "MIT",
+	"icon": "images/tso_logo_800.png",		
 	"keywords": [
 		"vscode",
 		"extension",
