@@ -3,7 +3,7 @@
 
 Quickly override methods of the class to extend.
 
-![dotup-vscode-override-typescript Video](https://raw.githubusercontent.com/dotupNET/dotup-vscode-override-typescript-docs/master/images/video.gif)
+![dotup-vscode-override-typescript Video](https://raw.githubusercontent.com/dotupNET/dotup-vscode-override-typescript/master/images/video.gif)
 
 ## Installation
 
