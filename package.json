@@ -2,11 +2,11 @@
 	"name": "dotup-vscode-override-typescript",
 	"displayName": "Override for typescript",
 	"description": "Override for typescript. Code completition for methods of extended class",
-	"version": "1.0.0",
+	"version": "1.0.1",
 	"publisher": "dotup",
 	"author": "Peter Ullrich, dotup IT solutions",
 	"license": "MIT",
-	"icon": "images/tso_logo_800.png",		
+	"icon": "images/tso_logo_800.png",
 	"keywords": [
 		"vscode",
 		"extension",
