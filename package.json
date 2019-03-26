@@ -25,7 +25,7 @@
 		"url": "https://github.com/dotupNET/dotup-vscode-override-typescript/issues"
 	},
 	"engines": {
-		"vscode": "^1.18.0"
+		"vscode": "^1.25.0"
 	},
 	"categories": [
 		"Extension Packs",
@@ -54,9 +54,9 @@
 		"resolve": "^1.10.0"
 	},
 	"devDependencies": {
-		"@types/node": "^11.11.7",
-		"@types/resolve": "0.0.7",
+		"@types/node": "^11.10.4",
+		"@types/resolve": "0.0.8",
 		"tslint": "^5.14.0",
-		"vscode": "^1.1.32"
+		"vscode": "^1.1.30"
 	}
 }
