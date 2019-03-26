@@ -18,6 +18,11 @@ Open a typescript file which extends another class. Put your cursor within the c
 
 ## Release Notes
 
+### 1.0.4
+
+- Support for type definition files (.d.ts)
+- Support for typescript libraries
+
 ### 1.0.3
 
 - Activation events changed from typescript to *

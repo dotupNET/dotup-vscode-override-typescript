@@ -5,6 +5,7 @@
 import * as vscode from 'vscode';
 import { MethodExtractor } from './MethodExtractor';
 import { NodePrinter } from 'dotup-vscode-api-extensions';
+import { ExtendedNode } from 'dotup-vscode-api-extensions';
 export function activate(context: vscode.ExtensionContext) {
 
 	const out = vscode.window.createOutputChannel('override');
@@ -49,8 +50,11 @@ export function activate(context: vscode.ExtensionContext) {
 
 					let text = NodePrinter.printNode(m);
 					text = `${text.replace(';', '').trim()} {\n}`;
-					completition.insertText = methodExtractor.isAsyncMethod(m) ? `async ${text}` : text;
+					text = methodExtractor.isAsyncMethod(m) ? `async ${text}` : text;
+					completition.insertText = text;
 					completition.range = new vscode.Range(new vscode.Position(position.line, position.character - 'override.'.length), position);
+					completition.detail = text;
+					completition.documentation = NodePrinter.printNode((<ExtendedNode>m).jsDoc);
 					return completition;
 				});
 

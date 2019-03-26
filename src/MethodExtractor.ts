@@ -1,8 +1,9 @@
-import { FileAnalyser, SourceFileDescriptor, SourceAnalyser } from 'dotup-vscode-api-extensions';
+import { ClassAnalyer, SourceAnalyser, SourceFileDescriptor } from 'dotup-vscode-api-extensions';
 import * as fs from 'fs';
-import * as path from 'path';
 import { ImportDeclaration, MethodSignature, NamedImports, SyntaxKind, TypeReferenceNode } from 'typescript';
 import * as vscode from 'vscode';
+import { FileFinder } from './FileFinder';
+import { TypeDefinitionAnalyser } from './TypeDefinitionAnalyser';
 
 export class MethodExtractor {
 
@@ -13,17 +14,52 @@ export class MethodExtractor {
 
 	// }
 	async getMethodSignatures(document: vscode.TextDocument, position: vscode.Position, out: vscode.OutputChannel): Promise<MethodSignature[]> {
-		const sourceFilePath = document.uri.fsPath;
-
-		// Analyse source file
-		// const fileAnalyser = new FileAnalyser();
-		// const sourceDescriptor = fileAnalyser.analyseFile(sourceFilePath, out);
-
 		const analyser = new SourceAnalyser();
-		// tslint:disable-next-line: non-literal-fs-path
-
 		const sourceDescriptor = analyser.analyse('tmp', document.getText());
-		//	const curserPos = vscode.window.activeTextEditor.selection.start;
+		const className = this.getClassNameToOverrideFrom(sourceDescriptor, position);
+
+		// Could not find class name
+		if (className === undefined) {
+			return;
+		}
+
+		const importDeclaration = this.getImportDeclaration(sourceDescriptor, className);
+
+		// File has no import statements
+		if (importDeclaration === undefined) {
+			return;
+		}
+
+		const dts = new FileFinder();
+		const definitionFilePath = dts.find(document.uri.fsPath, importDeclaration, className);
+		const dtsContent = fs.readFileSync(definitionFilePath, 'UTF-8');
+
+		// const sourceFile = createSourceFile('tmp', dtsContent, ScriptTarget.Latest, true);
+		const ana = new TypeDefinitionAnalyser(className);
+		ana.analyse(dtsContent);
+		// const classToExtendFromSourceFile = this.getClassToExtendFrom(path.dirname(sourceFilePath), importDeclaration, out);
+		// const classToExtendFromSourceFile = this.getClassToExtendFrom(definitionFilePath, importDeclaration, out);
+
+
+		// // Class declaration file not found
+		// if (classToExtendFromSourceFile === undefined) {
+		// 	return;
+		// }
+
+		// const classToExtendFrom = classToExtendFromSourceFile.classDescriptors.find(c => c.className === className);
+
+		// // Class declaration not found
+		// if (classToExtendFrom === undefined) {
+		// 	return;
+		// }
+
+		const ca = new ClassAnalyer();
+		const cDec = ana.classDeclarations.find(x => x.getName() === className);
+		const classDescriptor = ca.getClassDescriptor(cDec.compilerNode);
+		return classDescriptor.methods;
+	}
+
+	getClassNameToOverrideFrom(sourceDescriptor: SourceFileDescriptor, position: vscode.Position): string {
 
 		// Is there a valid source file?
 		if (sourceDescriptor.isSourceValid()) {
@@ -47,30 +83,7 @@ export class MethodExtractor {
 				return;
 			}
 
-			const className = clause.types[0].getText();
-			const importDeclaration = this.getImportDeclaration(sourceDescriptor, className);
-
-			// File has no import statements
-			if (importDeclaration === undefined) {
-				return;
-			}
-
-			const classToExtendFromSourceFile = this.getClassToExtendFrom(path.dirname(sourceFilePath), importDeclaration, out);
-
-
-			// Class declaration file not found
-			if (classToExtendFromSourceFile === undefined) {
-				return;
-			}
-
-			const classToExtendFrom = classToExtendFromSourceFile.classDescriptors.find(c => c.className === className);
-
-			// Class declaration not found
-			if (classToExtendFrom === undefined) {
-				return;
-			}
-
-			return classToExtendFrom.methods;
+			return clause.types[0].getText();
 		}
 	}
 
@@ -83,21 +96,6 @@ export class MethodExtractor {
 		});
 
 		return <ImportDeclaration>extendsSource;
-	}
-
-	getClassToExtendFrom(rootPath: string, importDeclaration: ImportDeclaration, out: vscode.OutputChannel): SourceFileDescriptor {
-		let src = importDeclaration.moduleSpecifier.getText();
-		src = src.replace(/'|"/g, '');
-		src = `${src}.ts`;
-
-		const sourceFilePath = path.join(rootPath, src);
-
-		if (fs.existsSync(sourceFilePath)) {
-			const fileAnalyser = new FileAnalyser();
-			const sourceDescriptor = fileAnalyser.analyseFile(sourceFilePath, out);
-
-			return sourceDescriptor;
-		}
 	}
 
 	isAsyncMethod(method: MethodSignature): boolean {
@@ -114,6 +112,6 @@ export class MethodExtractor {
 		}
 
 	}
-	
+
 }
 
