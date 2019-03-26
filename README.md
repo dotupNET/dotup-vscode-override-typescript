@@ -1,7 +1,7 @@
 # Typescript override for Visual Studio Code
 ## Description
 
-Quickly override methods of the class to extend.
+Quickly override methods of the class to extend. For own class declaratoins and .d.ts files
 
 ![dotup-vscode-override-typescript Video](https://raw.githubusercontent.com/dotupNET/dotup-vscode-override-typescript/master/images/video.gif)
 
