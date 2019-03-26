@@ -10,7 +10,7 @@ Quickly override methods of the class to extend. For own class declaratoins and 
 You can browse and install extensions from within VS Code. Press `Ctrl+P` and narrow down the list commands by typing `ext install dotup-vscode-override-typescript`.
 
 Or download from 
-[Visual Studio Marketplace](https://marketplace.visualstudio.com/items?itemName=dotup.dotup-vscode-override-typescript "Visual Studio Marketplace Homepage")
+[Visual Studio Marketplace](https://marketplace.visualstudio.com/publishers/dotup "Visual Studio Marketplace Homepage")
 
 ## Usage
 
