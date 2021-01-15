@@ -83,6 +83,13 @@ export class MethodExtractor {
 				return;
 			}
 
+			let className = clause.types[0].getText();
+			const idxOfT = className.indexOf('<');
+			if (idxOfT != -1) {
+				className = className.substring(0, idxOfT).trim();
+			}
+
+			return className;
 			return clause.types[0].getText();
 		}
 	}
@@ -90,8 +97,9 @@ export class MethodExtractor {
 	getImportDeclaration(sourceDescriptor: SourceFileDescriptor, className: string): ImportDeclaration {
 		const extendsSource = sourceDescriptor.importClause.find(imp => {
 			const x: ImportDeclaration = <ImportDeclaration>imp;
-			const bindings = <NamedImports>x.importClause.namedBindings;
+			return x.importClause.getText() === className;
 
+			const bindings = <NamedImports>x.importClause.namedBindings;
 			return bindings.elements.some(x => x.name.getText() === className);
 		});
 
